@@ -120,7 +120,7 @@ public class JsonParser {
         return jsonArray;
     }
 
-    private static Boolean getBooleanOrNull(JSONObject jsonObject, String key) {
+    public static Boolean getBooleanOrNull(JSONObject jsonObject, String key) {
         if (jsonObject.has(key)) {
             if (jsonObject.isNull(key)) return null;
             try {
@@ -131,11 +131,21 @@ public class JsonParser {
         }
         return null;
     }
+    public static Boolean getBooleanOrDefault(JSONObject jsonObject, String key, boolean defValue) {
+        if (jsonObject.has(key)) {
+            if (jsonObject.isNull(key)) return defValue;
+            try {
+                return jsonObject.getBoolean(key);
+            } catch (JSONException ignored) {
+                return defValue;
+            }
+        }
+        return defValue;
+    }
 
     public static Boolean getBooleanOrFalse(JSONObject jsonObject, String key) {
 
-        Boolean result = getBooleanOrNull(jsonObject, key);
-        return result != null ? result : false;
+        return getBooleanOrDefault(jsonObject, key, false);
 
     }
 
